@@ -1,8 +1,13 @@
 import { Note } from '../models/Note';
-import { CREATE_NOTE, EDIT_NOTE, DELETE_NOTE } from './notes-actions';
+import * as actions from './notes-actions';
 
 const initialState = {
   notes: [],
+  isLoggedIn: false,
+  errors: {
+    login: '',
+    register: '',
+  },
 };
 
 const getDate = () => {
@@ -19,7 +24,7 @@ const getDate = () => {
 export default (state = initialState, action) => {
   const { date, dateString } = getDate();
   switch (action.type) {
-    case CREATE_NOTE: {
+    case actions.CREATE_NOTE: {
       const newNote = new Note(
         date,
         action.noteData.title,
@@ -27,10 +32,11 @@ export default (state = initialState, action) => {
         dateString
       );
       return {
+        ...state,
         notes: state.notes.concat(newNote),
       };
     }
-    case EDIT_NOTE:
+    case actions.EDIT_NOTE:
       {
         const noteIndex = state.notes.findIndex(
           (note) => note.id === action.noteData.id
@@ -55,7 +61,7 @@ export default (state = initialState, action) => {
         }
       }
       return state;
-    case DELETE_NOTE:
+    case actions.DELETE_NOTE:
       const noteIndex = state.notes.findIndex(
         (note) => note.id === action.noteData.id
       );
@@ -66,6 +72,42 @@ export default (state = initialState, action) => {
         };
       }
       return state;
+    case actions.LOGIN:
+      return {
+        ...state,
+        isLoggedIn: true,
+        errors: {
+          login: '',
+          register: '',
+        },
+      };
+    case actions.LOGIN_FAILURE:
+      return {
+        ...state,
+        isLoggedIn: false,
+        errors: {
+          login: action.error,
+          register: '',
+        },
+      };
+    case actions.REGISTER_FAILURE:
+      return {
+        ...state,
+        isLoggedIn: false,
+        errors: {
+          login: '',
+          register: action.error,
+        },
+      };
+    case actions.LOGOUT:
+      return {
+        ...state,
+        isLoggedIn: false,
+        errors: {
+          login: '',
+          register: '',
+        },
+      };
     default:
       return state;
   }

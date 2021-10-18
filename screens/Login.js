@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useEffect } from 'react';
+import React, { useReducer } from 'react';
 import { useDispatch } from 'react-redux';
 import * as notesActions from '../store/notes-actions';
 import { Button, StyleSheet, Text, TextInput } from 'react-native';
@@ -17,7 +17,7 @@ const formReducer = (state, action) => {
         ...state,
         email: {
           text: action.text,
-          validity: action.text.trim().length > 0 && validateEmail(action.text),
+          validity: validateEmail(action.text),
         },
       };
     case CHANGE_PASSWORD:
@@ -57,9 +57,12 @@ const initialState = {
 };
 
 const validateEmail = (email) => {
-  const re =
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
+  if (email.length > 0) {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+  return false;
 };
 
 const Login = (props) => {
@@ -87,16 +90,8 @@ const Login = (props) => {
           password: state.password.text,
         })
       );
-      props.navigation.navigate();
     }
   };
-
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-
-  useEffect(() => {
-    emailRef.current.focus();
-  }, []);
 
   return (
     <KeyboardAwareScrollView
@@ -112,13 +107,9 @@ const Login = (props) => {
             ? { ...styles.textInput, ...styles.errorInput }
             : styles.textInput
         }
-        value={state.title.text}
+        value={state.email.text}
         onChangeText={changeEmailHandler}
-        ref={emailRef}
         onBlur={onEmailBlurHandler}
-        onSubmitEditing={() => {
-          passwordRef.current.focus();
-        }}
         keyboardType="email-address"
       />
       <Text style={styles.inputLabel}>Password:</Text>
@@ -129,12 +120,11 @@ const Login = (props) => {
             : { ...styles.textInput, ...styles.textBox }
         }
         textContentType="password"
-        value={state.content.text}
+        value={state.password.text}
         onChangeText={changePasswordHandler}
-        ref={passwordRef}
         onBlur={onPasswordBlurHandler}
       />
-      <Button title="OK" color={Colors.secondary} onPress={submitHandler} />
+      <Button title="OK" color={Colors.primary} onPress={submitHandler} />
     </KeyboardAwareScrollView>
   );
 };

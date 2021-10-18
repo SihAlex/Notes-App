@@ -17,18 +17,27 @@ export const SCREENS = {
 
 const Stack = createNativeStackNavigator();
 
-const MainNavigator = () => {
+const screenOptions = {
+  headerStyle: {
+    backgroundColor: Colors.primary,
+  },
+  headerTintColor: 'white',
+};
+
+export const AuthNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Notes"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: Colors.primary,
-          },
-          headerTintColor: 'white',
-        }}
-      >
+      <Stack.Navigator initialRouteName="Login" screenOptions={screenOptions}>
+        <Stack.Screen name="Login" component={Login} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export const MainNavigator = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Notes" screenOptions={screenOptions}>
         <Stack.Screen name="Notes" component={NotesScreen} />
         <Stack.Screen
           name="CreateNote"
@@ -49,5 +58,3 @@ const MainNavigator = () => {
     </NavigationContainer>
   );
 };
-
-export default MainNavigator;

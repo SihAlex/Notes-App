@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as notesActions from '../store/notes-actions';
 import {
@@ -8,17 +8,35 @@ import {
   Dimensions,
   Text,
   Alert,
+  Button,
 } from 'react-native';
 import NoteListItem from '../components/NoteListItem';
 import PulsatingButton from '../components/PulsatingButton';
 
-import { SCREENS } from '../navigation/MainNavigator';
+import { SCREENS } from '../navigation/Navigators';
+import { Colors } from '../constants/Colors';
 
 const NotesScreen = (props) => {
   const navigation = props.navigation;
 
   const notes = useSelector((state) => state.notes);
   const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <Button
+            title="Logout"
+            onPress={() => {
+              notesActions.logout();
+            }}
+            color={Colors.primary}
+          />
+        );
+      },
+    });
+  }, [navigation]);
 
   const renderListItem = (itemData) => {
     const { id, title, content, date } = itemData.item;

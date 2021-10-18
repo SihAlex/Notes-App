@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "806752391986",
+    "project_id": "animal-forms",
+    "storage_bucket": "animal-forms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806752391986:android:9faf629a00713f80c07d2b",
+        "android_client_info": {
+          "package_name": "com.practice5"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "806752391986-k5q6fnm6p56t059b06fh2c81jqgfr8l4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbQ6YNlHrNED67V2k5o5qaUl0pzwvuvnk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "806752391986-k5q6fnm6p56t059b06fh2c81jqgfr8l4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
